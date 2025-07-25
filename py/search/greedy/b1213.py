@@ -52,30 +52,71 @@ A~Z까지 map으로 갯술를 받아서 개수를 확인하고
 ZZYYXXWWVVUUTTSSRRQQQPPPOOOKKJJIIHHGGFFEEDDCCBBAA
 ZZYYXXWWVVUUTTSSRRQQPPOOKKJJIIHHGGFFEEDDCCBBAA
 """
-test = 'ABCDEFGHIJKLMNOQPRSTUVWXYZABCDEFGHIJKLMNOQPRSTUVWXYZ'
-print(''.join(sorted(test, reverse=True)))
+# test = 'ABCDEFGHIJKLMNOQPRSTUVWXYZABCDEFGHIJKLMNOQPRSTUVWXYZ'
+# print(''.join(sorted(test, reverse=True)))
+#
+# abc = dict()
+# ILUVU = input()
+# for iluvu in ILUVU:
+#     if iluvu not in abc.keys():
+#         abc.update({iluvu: 1})
+#     else:
+#         abc[iluvu] += 1
+#
+# odd_count = 0
+# odd = ''
+# front = ''
+# for k in sorted(abc):
+#     if abc[k] % 2 == 1:
+#         odd_count += 1
+#         odd = k
+#         if odd_count > 1:
+#             print("I'm Sorry Hansoo")
+#             exit()
+#     l = abc[k] // 2
+#     front += k * l
+#
+# print(front + odd + front[::-1])
+# # 맞았음!!
 
-abc = dict()
-ILUVU = input()
-for iluvu in ILUVU:
-    if iluvu not in abc.keys():
-        abc.update({iluvu: 1})
+
+
+
+# 풀이
+"""
+문자가 짝수개 있으면 무조건 만들 수 있다. 
+홀수개가 많으면 만들 수 없다. 
+하지만 홀수개가 한 개만 있으면 만들 수 있다.
+ 
+"""
+# from collections import Counter
+# c = Counter(input())  # counter를 사용하면 바로 dict형태로 만들어준다. 아래처럼 for문을 돌릴 필요가 없다. Counter({'A': 2, 'B': 2, 'C': 2, 'D': 2})
+c = dict() # 사용되는 문자 개수 넣기
+s = input()
+for ch in s:
+    if ch in c:
+        c[ch] += 1
     else:
-        abc[iluvu] += 1
+        c[ch] = 1
 
-odd_count = 0
-odd = ''
-front = ''
-for k in sorted(abc):
-    if abc[k] % 2 == 1:
-        odd_count += 1
-        odd = k
-        if odd_count > 1:
-            print("I'm Sorry Hansoo")
-            exit()
-    l = abc[k] // 2
-    front += k * l
+# print(c.keys())   -> dict_keys(['A', 'B'])
+# print(c.values()) -> dict_values([1, 1])
+# print(c.items())  -> dict_items([('A', 1), ('B', 1)])
 
-print(front + odd + front[::-1])
-# 맞았음!!
+# 홀수개의 합이 2개 이상이면 아임소리 출력
+if sum(i % 2 for i in c.values()) > 1:
+    print("I'm Sorry Hansoo")
+else:
+    half = ''
+    for k, v in sorted(c.items()):
+        half += k * (v // 2)
+    ans = half
+
+    for k, v in sorted(c.items()):
+        if v % 2:
+            ans += k
+            break
+    ans += ''.join(reversed(half))
+    print(ans)
+
 
