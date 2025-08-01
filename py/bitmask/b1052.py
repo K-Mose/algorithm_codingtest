@@ -27,18 +27,46 @@ K의 물병은 K/2 + K/2 물병의 합
 1. K-1번 만큼 N을 2의 거듭제곱으로 빼기 
 2. 뺸 수를 가장 작은 거듭제곱으로 만들어서 새로운 병으로 합산
 """
+# N, K = map(int, input().split())
+# bottles = []
+# for i in range(24, 0, -1):
+#     if N >= 2 ** i:
+#         print(N)
+#         bottles.append(2 ** i)
+#         N -= 2 ** i
+# if N > 0:
+#     bottles.append(N)
+# print(bottles, N)
+# if len(bottles) <= K:
+#   print(0)
+# elif len(bottles) > 1:
+#     print(f'{bottles[K - 1]} - {sum(bottles[K:])} // {bottles[K:]}')
+#     print(bottles[K-1] - sum(bottles[K:]))
+
+# 비트 마스킹으로 풀기
+# 합치는 물병의 수는 2의 거듭제곱이므로 비트바스킹으로 할 수 있다.
+# 비트로 변환 했을 때 1인 자리수의 합이 K개 이하가 되게 하면 된다.
 N, K = map(int, input().split())
-bottles = []
-for i in range(24, 0, -1):
-    if N >= 2 ** i:
-        print(N)
-        bottles.append(2 ** i)
-        N -= 2 ** i
-if N > 0:
-    bottles.append(N)
-print(bottles, N)
-if len(bottles) <= K:
-  print(0)
-elif len(bottles) > 1:
-    print(f'{bottles[K - 1]} - {sum(bottles[K:])} // {bottles[K:]}')
-    print(bottles[K-1] - sum(bottles[K:]))
+
+bit = format(N, '0b')
+p = 0
+f = False
+exclusive = ''
+for b in bit:
+    p += 1
+    if b == '1':
+        if K > 0:
+            K -= 1
+        else:
+            f = True
+    if K <= 0:
+        if b == '1':
+            exclusive += '0'
+        else:
+            exclusive += '1'
+exclusive = int(exclusive, 2)
+if not f:
+    print(0)
+else:
+    print(exclusive + 1)
+# 비트마스킹이 맞는지 의문
